@@ -1,0 +1,9 @@
+
+[project]
+name = "cli-calculator"
+version = "0.1.0"
+description = "A modular CLI calculator with tests and CI."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+addopts = "-q"
