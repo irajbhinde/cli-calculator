@@ -1,6 +1,10 @@
 
 # CLI Calculator (Professional-Grade, Tested, CI-Enforced)
 
+CLI Calculator
+Type 'help' for instructions or 'exit' to quit.
+
+
 A modular, professional-grade command-line calculator in Python featuring a REPL, solid error handling (LBYL + EAFP), history, and full test coverage enforced by GitHub Actions.
 
 ## Features
@@ -63,6 +67,45 @@ python -m app.calculator.cli
 # or
 python -c "from app.calculator import main; main()"
 ```
+
+# ✅ Valid Inputs
+calc> add 2 3 5
+add(2, 3, 5) = 10.0
+
+calc> * 4 5
+*(4, 5) = 20.0
+
+calc> times 2 10
+times(2, 10) = 20.0
+
+calc> history
+add(2, 3, 5) = 10.0
+*(4, 5) = 20.0
+times(2, 10) = 20.0
+
+calc> help
+Available commands:
+  add/sub/mul/div or + - * / times
+  help     Show this help
+  history  Show calculation history
+  exit     Quit the calculator
+
+# ❌ Invalid Inputs (Error handing implemented)
+calc> bogus 1 2
+Error: Unknown operation: bogus
+
+calc> add a b
+Error: All operands must be numbers
+
+calc> div 1 0
+Error: Division by zero
+
+calc> 
+# (Empty line is ignored)
+
+^C
+(CTRL+C) Bye!
+
 
 ## Notes on Coverage Exceptions
 - Lines that are inherently untestable (e.g., interactive guards) are marked with `# pragma: no cover`.

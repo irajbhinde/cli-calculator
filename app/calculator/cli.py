@@ -39,17 +39,27 @@ def format_calc(op: str, nums: Iterable[float], result: float) -> str:
     return f"{op}({nums_str}) = {result}"
 
 def repl(stdin=input, stdout=print) -> None:
-    from app.calculation.factory import OPERATIONS  # local import keeps CLI lightweight
+    from app.calculation.factory import OPERATIONS, create_calculation  # local import keeps CLI lightweight
     history = History()
     stdout(WELCOME)
     while True:
         stdout("")  # spacing
-        line = stdin("calc> ")
-        if line is None:  # pragma: no cover - interactive guards
+        try:
+            line = stdin("calc> ")
+        except KeyboardInterrupt:
+            stdout("\n(CTRL+C) Bye!")
             break
+        except EOFError:
+            stdout("\n(EOF) Bye!")
+            break
+
+        if line is None:  # pragma: no cover - ultra-defensive for odd TTYs
+            break
+
         line = line.strip()
         if not line:
             continue
+
         cmd = line.lower()
         if cmd in ("exit", "quit"):
             stdout("Bye!")
@@ -65,22 +75,22 @@ def repl(stdin=input, stdout=print) -> None:
                     stdout(format_calc(item.operation_name, item.operands, item.compute()))
             continue
 
-        # Otherwise treat as calculation
+        # Treat as calculation
         try:
             op, nums = parse_line(line)
         except ValueError as e:
             stdout(f"Error: {e}")
             continue
+
         try:
-            # Check operation existence early (LBYL) to craft a nice error
-            from app.calculation.factory import OPERATIONS
             if op.lower() not in OPERATIONS:
-                raise ValueError(f"Unknown operation: {op}")
+                stdout(f"Error: Unknown operation: {op}")
+                continue
             calc = create_calculation(op, *nums)
             result = calc.compute()
             history.add(calc)
             stdout(format_calc(op, nums, result))
-        except Exception as e:  # broad by design at REPL boundary
+        except Exception as e:
             stdout(f"Error: {e}")
 
 def main() -> None:
