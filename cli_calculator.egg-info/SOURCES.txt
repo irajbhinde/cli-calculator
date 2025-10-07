@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+app/__init__.py
+app/calculation/__init__.py
+app/calculation/calculation.py
+app/calculation/factory.py
+app/calculator/__init__.py
+app/calculator/cli.py
+app/operation/__init__.py
+app/operation/ops.py
+cli_calculator.egg-info/PKG-INFO
+cli_calculator.egg-info/SOURCES.txt
+cli_calculator.egg-info/dependency_links.txt
+cli_calculator.egg-info/top_level.txt
+tests/test_calculations.py
+tests/test_cli.py
+tests/test_operations.py
